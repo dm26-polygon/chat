@@ -1,0 +1,48 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container-chat {
+    /* background-color: rgb(240, 240, 247); */
+    padding: 20px;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+}
+
+.container-messsages {
+    height: 350px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.card {
+    padding: 10px;
+     background-color: #EBEEF2; 
+    color: black;
+    margin-top: 5px;
+    border-radius: 5px;
+    width: auto;
+}
+
+.card__question {
+    padding: 10px;
+    background-color: #2e57f2;
+    color: white;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.card__header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: blueviolet;
+}
+
+.card__body {
+    text-align: right;
+}
