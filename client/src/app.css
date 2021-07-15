@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+.text-title{
+    color: #8193d6;
+}
+
 .container-chat {
     /* background-color: rgb(240, 240, 247); */
     padding: 20px;
@@ -19,9 +23,17 @@
     align-items: flex-end;
 }
 
+.container__buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 27px;
+    padding-bottom: 15px;
+}
+
 .card {
-    padding: 10px;
-     background-color: #EBEEF2; 
+    padding: 5px;
+    background-color: #f8f9fa;
     color: black;
     margin-top: 5px;
     border-radius: 5px;
@@ -29,20 +41,22 @@
 }
 
 .card__question {
-    padding: 10px;
-    background-color: #2e57f2;
+    padding: 5px;
+    background-color: #8193d6;
     color: white;
     margin-top: 5px;
     border-radius: 5px;
+    color:white
 }
 
 .card__header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    color: blueviolet;
+    color: #8193d6;
 }
 
 .card__body {
     text-align: right;
+    color: gray;
 }

@@ -10,6 +10,7 @@ var moment = require("moment");
 
 let messages = { users: {} };
 let questions = { users: {} };
+let onlyQuestions =[]
 let values;
 
 // SE AGREGA POR VERSION SUPERIOR A 3 DE SOCKET
@@ -22,16 +23,22 @@ const io = socketio(servidor, {
 
 io.on('connection', socket => {
 
+    io.emit("questionsDB", onlyQuestions);
+
     socket.on("actions", (msg) => {
 
         if (msg.message.includes("?")) {
+
             let datos = {
                 user: msg.user,
                 message: msg.message,
                 type: "question",
             };
+
+            onlyQuestions.push(datos)
+
+
             io.emit("actions", datos);
-            
 
             if (!questions.users.hasOwnProperty(msg.user)) {
                 console.log("AQUI");
@@ -44,6 +51,9 @@ io.on('connection', socket => {
             };
 
             questions.users[msg.user].push(values);
+
+            io.emit("questionsDB", onlyQuestions);            
+
         } else {
             let datos = {
                 user: msg.user,
@@ -66,7 +76,10 @@ io.on('connection', socket => {
         if (msg.message == "obtener") {
             console.log(questions.users, messages.users);
         }
+
     });
+
+
 
 })
 

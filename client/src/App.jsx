@@ -12,48 +12,33 @@ const App = () => {
   const element = <FontAwesomeIcon icon={faPaperPlane} />
 
   const [userNameDB, setUserNameDB] = useState('Anonymous')
+  const [messages, setMessages] = useState([])
+  const [questionsDB, setQuestionsDB] = useState([])
 
   useEffect(() => {
 
-    let messages = document.getElementById('chat');
+    console.log("Effect")
+
+    const chatBox = document.querySelector('#chat');
 
     socket.on('actions', function (msg) {
+      setMessages([...messages, msg])
       console.log(msg)
-      let item = document.createElement('div');
-
-      if (msg.type === 'question') {
-
-        item.innerHTML = `
-        <div class="card__question me-2 " key={i}>
-          <div class="card__header text-white">
-              <span>${msg.user}</span>  <span hidden>{new Date().getHours() + ":" + new Date().getMinutes()}</span>
-          </div>
-          <div class="card__body">
-                ${msg.message}
-          </div>
-       </div>`
-
-      }
-      else if (msg.type === 'comment') {
-
-        item.innerHTML = `
-        <div class="card me-2 " key={i}>
-          <div class="card__header">
-            <span>${msg.user}</span>  <span hidden>{new Date().getHours() + ":" + new Date().getMinutes()}</span>
-          </div>
-          <div class="card__body">
-            ${msg.message}
-          </div>
-      </div>`
-
-      }
-
-      messages.appendChild(item);
-      messages.scrollTop = messages.scrollHeight;
-
     });
 
-  }, [])
+    socket.on('questionsDB', questions => {
+      console.log("Question res")
+      console.log(questions)
+      setQuestionsDB(questions)
+    });
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    return () => {
+      socket.off();
+    };
+
+  }, [messages])
 
   const sendMessage = (e) => {
 
@@ -82,7 +67,7 @@ const App = () => {
   return (
     <div>
 
-      <h2 className="text-center text-info mt-5" >CHAT</h2>
+      <h2 className="text-center text-title mt-5" >CHAT</h2>
       <br />
       <br />
 
@@ -92,12 +77,29 @@ const App = () => {
           <div className="col-6 container-video">
 
             <div className="row">
-              <div className="col-5">
+              <div className="col-8">
 
                 <label htmlFor="" className="text-secondary">Usuario DB</label>
                 <input type="text" className="form-control mt-1" placeholder="Ingresar usuario" value={userNameDB} onChange={changeUser} autoComplete="off" />
 
                 <button className="btn btn-info" hidden type="submit">Guardar</button>
+
+                <hr />
+
+                {
+                  questionsDB.map((data, i) => {
+                    return (
+                      <div className="card__question me-2" key={i /* Mientras */}>
+                        <div className="card__header text-white">
+                          <span>{data.user}</span>
+                        </div>
+                        <div className="card__body text-white">
+                          {data.message}
+                        </div>
+                      </div>
+                    )
+                  })
+                }
 
               </div>
             </div>
@@ -106,14 +108,48 @@ const App = () => {
 
           <div className="col-6 " >
 
+            <div class="container__buttons">
+              <button class="btn btn-outline-secondary" type="button">Chat Academy</button>
+              <button class="btn btn-outline-secondary" type="button">Preguntas Academy</button>
+            </div>
+
+            {/* RECORDAR QUE SI SE QUITA EL ID DEL CHAT SALE ERROR POR QUE NO SE PUEDE HACER SCROLL */}
 
             <div className="container-chat" >
 
               <div className="container-messsages" id="chat">
-                <div id="messages">
-                  {/* AQUI SE RENDERIZAN LOS MENSAJES */}
-                </div>
+
+                {
+
+                  messages.map((data, i) => {
+                    if (data.type === "question") {
+                      return (
+                        <div className="card__question me-2" key={i /* Mientras */}>
+                          <div className="card__header text-white">
+                            <span>{data.user}</span>
+                          </div>
+                          <div className="card__body text-white">
+                            {data.message}
+                          </div>
+                        </div>
+                      )
+                    } else {
+                      return (
+                        <div className="card me-2 " key={i /* Mientras */}>
+                          <div className="card__header">
+                            <span>{data.user}</span>
+                          </div>
+                          <div className="card__body">
+                            {data.message}
+                          </div>
+                        </div>
+                      )
+                    }
+                  })
+                }
+
               </div>
+
 
               <hr />
 
