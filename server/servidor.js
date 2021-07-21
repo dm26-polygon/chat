@@ -16,7 +16,7 @@ let values;
 // SE AGREGA POR VERSION SUPERIOR A 3 DE SOCKET
 const io = socketio(servidor, {
     cors: {
-        origin: "http://localhost:3001",
+        origin: "http://localhost:3000",
         methods: ["GET", "POST"]
     }
 });
@@ -26,6 +26,10 @@ io.on('connection', socket => {
     io.emit("questionsDB", onlyQuestions);
 
     socket.on("actions", (msg) => {
+
+        console.log("Mensaje frontend")
+        
+        console.log(msg)
 
         if (msg.message.includes("?")) {
 
@@ -79,11 +83,7 @@ io.on('connection', socket => {
 
     });
 
-
-
 })
 
-
-servidor.listen(3000, () => console.log("Servidor Funcionando"))
-
+servidor.listen(3001, () => console.log("Servidor Funcionando"))
 

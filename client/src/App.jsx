@@ -5,13 +5,13 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 
 import './app.css'
 
-import socket from './components/Socket'
+import socket from './helpers/Socket'
 
 const App = () => {
 
   const element = <FontAwesomeIcon icon={faPaperPlane} />
 
-  const [userNameDB, setUserNameDB] = useState('Anonymous')
+  const [userNameDB, setUserNameDB] = useState('Juan')
   const [messages, setMessages] = useState([])
   const [questionsDB, setQuestionsDB] = useState([])
 
@@ -51,6 +51,7 @@ const App = () => {
     const message = {
       user: userNameForm,
       message: messageForm.value,
+      livesName: "Lives test 1"
     };
 
     socket.emit("actions", message);
